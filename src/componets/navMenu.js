@@ -1,10 +1,15 @@
 import React, { Component } from "react";
-import { Input, Menu, MenuItem } from "semantic-ui-react";
-import { MDBBtn } from "mdbreact";
+import { Menu, MenuItem } from "semantic-ui-react";
 import { Link } from "react-router-dom";
+import { MDBBtn } from "mdbreact";
 
-export default class MenuExamplePointing extends Component {
-  state = { activeItem: "home" };
+export class NavbarMenu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeItem: "home"
+    };
+  }
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
@@ -16,15 +21,14 @@ export default class MenuExamplePointing extends Component {
           <Link to="/">
             <MDBBtn>Home</MDBBtn>
           </Link>
-          <MDBBtn>Add New Subject</MDBBtn>
 
           <Menu.Menu position="right">
-            <Menu.Item>
-              <Input icon="search" placeholder="Search Subject" />
-            </Menu.Item>
+            <Menu.Item name="Taufik Hidayat" />
           </Menu.Menu>
         </Menu>
       </div>
     );
   }
 }
+
+export default NavbarMenu;

@@ -11,7 +11,6 @@ import {
   MDBModalFooter
 } from "mdbreact";
 
-
 export class movieList extends Component {
   constructor(props) {
     super(props);
@@ -49,12 +48,27 @@ export class movieList extends Component {
     return (
       <div>
         <NavMenu />
-        <h1>Movie List</h1>
+        <h1 style={{
+          textAlign:'center'
+        }}>Movie List</h1>
         {this.state.movies &&
           this.state.movies.map((movies, index) => {
             return (
-              <Card.Group key={index}>
-                <Card key={movies.index} onClick={() => this.toggle(movies)}>
+              <Card.Group
+                key={index}
+                style={{
+                  display: "inline-block",
+                  margin:'5px'
+                }}
+              >
+                <Card
+                  key={movies.index}
+                  onClick={() => this.toggle(movies)}
+                  style={{
+                    padding: "5%",
+                    justifyContent: "space-evenly"
+                  }}
+                >
                   {movies.display_title}
                 </Card>
               </Card.Group>

@@ -47,16 +47,29 @@ export class articleList extends Component {
     return (
       <div>
         <NavMenu />
-        <h1>Article List</h1>
+        <h1 style={{
+          textAlign:'center'
+        }}>Article List</h1>
         {this.state.articles &&
           this.state.articles.map((articles, index) => {
             return (
-              <Card.Group key={index}>
+              <Card.Group
+                key={index}
+                style={{
+                  display: "inline-block",
+                  margin:'5px'
+                }}
+              >
                 <Card
                   key={articles.index}
                   onClick={() => this.toggle(articles)}
+                  style={{
+                    padding: "5%",
+                    justifyContent: "space-evenly"
+                  }}
                 >
-                  <h4>Abstract</h4><br/>
+                  <h4>Abstract</h4>
+                  <br />
                   {articles.abstract}
                 </Card>
               </Card.Group>

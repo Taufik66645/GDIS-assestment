@@ -1,20 +1,38 @@
 import React, { Component } from "react";
-import { Card, Segment } from "semantic-ui-react";
+import { Card, Segment, Form } from "semantic-ui-react";
 import {
   MDBContainer,
   MDBBtn,
   MDBModal,
-  MDBModalBody,
   MDBModalHeader,
-  MDBModalFooter
+  MDBModalBody
 } from "mdbreact";
 import { Link } from "react-router-dom";
 
 export class subject extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      subject: [],
+      modal: false
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  };
+
   SubjectCard = () => (
-    <Card.Group>
+    <Card.Group
+      style={{
+        justifyContent: "space-evenly"
+      }}
+    >
       <Link to="movieList">
-        <Card href>
+        <Card>
           <Card.Content>
             <Card.Header>Movies</Card.Header>
 
@@ -29,7 +47,7 @@ export class subject extends Component {
       </Link>
 
       <Link to="bookList">
-        <Card href>
+        <Card>
           <Card.Content>
             <Card.Header>Books</Card.Header>
 
@@ -44,7 +62,7 @@ export class subject extends Component {
       </Link>
 
       <Link to="articleList">
-        <Card href>
+        <Card>
           <Card.Content>
             <Card.Header>Articles</Card.Header>
 
@@ -60,13 +78,57 @@ export class subject extends Component {
     </Card.Group>
   );
 
+  handleChange(event) {
+    this.setState({ subject: event.target.value });
+  }
+  handleSubmit(event) {
+    console.log(this.state.value);
+    event.preventDefault();
+  }
+
   render() {
     return (
       <div>
-        <Segment>
-          <this.SubjectCard />
-          <MDBContainer></MDBContainer>
-        </Segment>
+        <MDBContainer
+          style={{
+            padding: "5px",
+            textAlign: "center"
+          }}
+        >
+          <Segment
+            style={{
+              padding: "5%"
+            }}
+          >
+            <this.SubjectCard />
+          </Segment>
+          <MDBBtn onClick={this.toggle}>Add New Subject</MDBBtn>
+        </MDBContainer>
+        <MDBContainer>
+          <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+            <MDBModalHeader toggle={this.toggle}>
+              Add New Subject
+            </MDBModalHeader>
+            <MDBModalBody>
+              <Form>
+                <Form.Field onChange={this.handleChange}>
+                  <label>Subject Name</label>
+                  <input />
+                </Form.Field>
+                <Form.Field>
+                  <label onChange={this.handleChange}>
+                    Description
+                  </label>
+                  <input />
+                </Form.Field>
+              </Form>
+            </MDBModalBody>
+
+            <MDBBtn color="primary" onClick={this.handleSubmit}>
+              Submit
+            </MDBBtn>
+          </MDBModal>
+        </MDBContainer>
       </div>
     );
   }
