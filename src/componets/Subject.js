@@ -13,7 +13,8 @@ export class subject extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      subject: [],
+      subject: "",
+      description: "",
       modal: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -79,10 +80,11 @@ export class subject extends Component {
   );
 
   handleChange(event) {
-    this.setState({ subject: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
   }
   handleSubmit(event) {
-    console.log(this.state.value);
+    console.log(this.state);
+
     event.preventDefault();
   }
 
@@ -111,22 +113,29 @@ export class subject extends Component {
             </MDBModalHeader>
             <MDBModalBody>
               <Form>
-                <Form.Field onChange={this.handleChange}>
+                <Form.Field>
                   <label>Subject Name</label>
-                  <input />
+                  <input
+                    name="subject"
+                    type="text"
+                    value={this.state.subject}
+                    onChange={this.handleChange}
+                  />
                 </Form.Field>
                 <Form.Field>
-                  <label onChange={this.handleChange}>
-                    Description
-                  </label>
-                  <input />
+                  <label>Description</label>
+                  <input
+                    name="description"
+                    type="text"
+                    value={this.state.description}
+                    onChange={this.handleChange}
+                  />
                 </Form.Field>
+                <MDBBtn color="primary" onClick={this.handleSubmit}>
+                  Submit
+                </MDBBtn>
               </Form>
             </MDBModalBody>
-
-            <MDBBtn color="primary" onClick={this.handleSubmit}>
-              Submit
-            </MDBBtn>
           </MDBModal>
         </MDBContainer>
       </div>
