@@ -1,13 +1,23 @@
 import React, { Component } from "react";
 import axios from "axios";
 import NavMenu from "./navMenu";
-import {Card} from 'semantic-ui-react';
+import { Card } from "semantic-ui-react";
+import {
+  MDBContainer,
+  MDBBtn,
+  MDBModal,
+  MDBModalBody,
+  MDBModalHeader,
+  MDBModalFooter
+} from "mdbreact";
 
 export class articleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      articles: []
+      articles: [],
+      modal: false,
+      modalContent: {}
     };
   }
   componentDidMount() {
@@ -17,13 +27,22 @@ export class articleList extends Component {
             `
       )
       .then(response => {
-        this.setState({ articles: response.data.response.docs});
+        this.setState({ articles: response.data.response.docs });
         console.log(response.data.response.docs);
       })
       .catch(error => {
         console.log(error);
       });
   }
+
+  toggle = articles => {
+    console.log(articles);
+    this.setState({
+      modal: !this.state.modal,
+      modalContent: Object.assign({}, articles)
+    });
+  };
+
   render() {
     return (
       <div>
@@ -32,13 +51,36 @@ export class articleList extends Component {
         {this.state.articles &&
           this.state.articles.map((articles, index) => {
             return (
-              <Card.Group>
-                <Card key={articles.index} href>
+              <Card.Group key={index}>
+                <Card
+                  key={articles.index}
+                  onClick={() => this.toggle(articles)}
+                >
+                  <h4>Abstract</h4><br/>
                   {articles.abstract}
                 </Card>
               </Card.Group>
             );
           })}
+        <MDBContainer>
+          <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+            <MDBModalHeader toggle={this.toggle}>ARTICLE</MDBModalHeader>
+            <MDBModalBody>
+              Abstract = {this.state.modalContent.abstract}
+              <br />
+              Paragraph ={this.state.modalContent.lead_paragraph}
+              <br />
+              Web Url ={this.state.modalContent.web_url}
+              <br />
+              Source ={this.state.modalContent.source}
+            </MDBModalBody>
+            <MDBModalFooter>
+              <MDBBtn color="secondary" onClick={this.toggle}>
+                Close
+              </MDBBtn>
+            </MDBModalFooter>
+          </MDBModal>
+        </MDBContainer>
       </div>
     );
   }

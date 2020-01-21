@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import NavMenu from "./navMenu";
 import axios from "axios";
-import { Card, Image, CardGroup } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 import {
   MDBContainer,
   MDBBtn,
@@ -10,15 +10,15 @@ import {
   MDBModalHeader,
   MDBModalFooter
 } from "mdbreact";
-import { logDOM } from "@testing-library/react";
+
 
 export class movieList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       movies: [],
-      modal: false
-      // modalContent: {}
+      modal: false,
+      modalContent: {}
     };
   }
 
@@ -38,10 +38,10 @@ export class movieList extends Component {
   }
 
   toggle = movies => {
-    console.log (movies)
+    console.log(movies);
     this.setState({
-      modal: !this.state.modal
-      // modalContent: movies
+      modal: !this.state.modal,
+      modalContent: Object.assign({}, movies)
     });
   };
 
@@ -53,9 +53,9 @@ export class movieList extends Component {
         {this.state.movies &&
           this.state.movies.map((movies, index) => {
             return (
-              <Card.Group>
-                <Card key={movies.index} href onClick={this.toggle}>
-                  {movies.display_title} <br /> Rating = {movies.mpaa_rating}
+              <Card.Group key={index}>
+                <Card key={movies.index} onClick={() => this.toggle(movies)}>
+                  {movies.display_title}
                 </Card>
               </Card.Group>
             );
@@ -63,7 +63,21 @@ export class movieList extends Component {
         <MDBContainer>
           <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
             <MDBModalHeader toggle={this.toggle}>MOVIE DETAIL</MDBModalHeader>
-            <MDBModalBody>Movie = {this.statemovies}</MDBModalBody>
+            <MDBModalBody>
+              Movie = {this.state.modalContent.display_title}
+              <br />
+              Author ={this.state.modalContent.byline}
+              <br />
+              Rating ={this.state.modalContent.mpaa_rating}
+              <br />
+              Headline ={this.state.modalContent.headline}
+              <br />
+              Summary ={this.state.modalContent.summary_short}
+              <br />
+              Opening Date ={this.state.modalContent.opening_date}
+              <br />
+              Publication Date ={this.state.modalContent.publication_date}
+            </MDBModalBody>
             <MDBModalFooter>
               <MDBBtn color="secondary" onClick={this.toggle}>
                 Close

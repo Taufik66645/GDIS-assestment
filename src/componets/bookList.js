@@ -3,12 +3,22 @@ import axios from "axios";
 import NavMenu from "./navMenu";
 
 import { Card } from "semantic-ui-react";
+import {
+  MDBContainer,
+  MDBBtn,
+  MDBModal,
+  MDBModalBody,
+  MDBModalHeader,
+  MDBModalFooter
+} from "mdbreact";
 
 export class bookList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      books: []
+      books: [],
+      modal: false,
+      modalContent: {}
     };
   }
 
@@ -26,6 +36,15 @@ export class bookList extends Component {
         console.log(error);
       });
   }
+
+  toggle = books => {
+    console.log(books);
+    this.setState({
+      modal: !this.state.modal,
+      modalContent: Object.assign({}, books)
+    });
+  };
+
   render() {
     return (
       <div>
@@ -34,13 +53,37 @@ export class bookList extends Component {
         {this.state.books &&
           this.state.books.map((books, index) => {
             return (
-              <Card.Group>
-                <Card key={books.index} href>
+              <Card.Group key={index}>
+                <Card key={books.index} onClick={() => this.toggle(books)}>
                   {books.title}
                 </Card>
               </Card.Group>
             );
           })}
+        <MDBContainer>
+          <MDBModal isOpen={this.state.modal} toggle={this.toggle}>
+            <MDBModalHeader toggle={this.toggle}>BOOK DETAIL</MDBModalHeader>
+            <MDBModalBody>
+              Movie = {this.state.modalContent.title}
+              <br />
+              Author ={this.state.modalContent.author}
+              <br />
+              Publisher ={this.state.modalContent.publisher}
+              <br />
+              Description ={this.state.modalContent.description}
+              <br />
+              Contributor ={this.state.modalContent.contributor}
+              <br />
+              Price ={this.state.modalContent.price}
+              <br />
+            </MDBModalBody>
+            <MDBModalFooter>
+              <MDBBtn color="secondary" onClick={this.toggle}>
+                Close
+              </MDBBtn>
+            </MDBModalFooter>
+          </MDBModal>
+        </MDBContainer>
       </div>
     );
   }
