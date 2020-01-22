@@ -83,11 +83,11 @@ export class subject extends Component {
     this.setState({ [event.target.name]: event.target.value });
   }
   handleSubmit(event) {
-    console.log(this.state);
-
     event.preventDefault();
-  }
 
+    console.log(this.state);
+    alert("Subject Submitted");
+  }
   render() {
     return (
       <div>
